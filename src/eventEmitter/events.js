@@ -1,22 +1,24 @@
-const EventEmitter = require("events");
-class ProcessEmitter extends EventEmitter{
+const EventEmitter = require("events")
+
+class EventEmit extends EventEmitter{
+    #eventName = "trigger"
     constructor(){
         super();
-        this.registerEvents();
+        this.#registerEvent();
     }
-    registerEvents(){
-        this.on("process", this.handleProcess)
+    #registerEvent(){
+        this.on(this.#eventName,this.#handlerFunction.bind(this))
+    }
+    #handlerFunction(){
+        for(let i = 1;i<5;i++){
+            console.log(`processing..${i}`)
+        }
+    }
+    fireEvent(){
+        this.emit(this.#eventName)
     }
 
-    handleProcess(){
-        console.log("Emitter Processing...")
-    }
-    start(){
-        this.emit("process")
-    }
 }
 
-const emitter = new ProcessEmitter();
-if (true){
-    emitter.start()
-}
+const eon = new EventEmit()
+eon.fireEvent()
