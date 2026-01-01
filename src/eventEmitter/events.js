@@ -1,27 +1,28 @@
-const EventEmitter = require("node:events")
-"use strict";
-
+const EventEmitter = require("events")
+"use restrict";
 class EventEmit extends EventEmitter{
-    #eventName
-    #processType
-    #certificate
-    constructor(eventName, processType, certificate){
+    #eventName;
+    #dataEvent;
+    #errorEvent; 
+    constructor(eventName,dataEvent=null,errorEvent=null){
         super();
-        this.#processType = processType;
-        this.#certificate = certificate;
         this.#eventName = eventName;
+        this.#dataEvent  = dataEvent;
+        this.#errorEvent = errorEvent;
         this.#registerEvent();
     }
     #registerEvent(){
-        this.on(this.#eventName, ()=>this.#handleEvent())
-    }
-    #handleEvent(){
-        console.log(`Process Type: ${this.#processType} \nCertificate: ${this.#certificate}`)
+        this.on(this.#eventName,()=>console.log(`the event emit is ${this.#eventName}`))
     }
     fireEvent(){
-        this.emit(this.#eventName)
+        if(this.#eventName === "error"){
+            this.emit("error", this.#errorEvent)
+        }
+        else if (this.#eventName === "data"){
+            this.emit("data")
+        }
     }
 }
 
-const eon1 = new EventEmit("trigger-x", "my-x", "intern")
+const eon1 = new EventEmit("error");
 eon1.fireEvent()
